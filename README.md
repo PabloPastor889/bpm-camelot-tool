@@ -1,24 +1,28 @@
 # BPM & Camelot Tool
 
-Web sencilla para calcular el tempo mediante pulsaciones y consultar
-tonalidades compatibles según la rueda Camelot.
+Web con dos herramientas musicales: cálculo de BPM mediante pulsaciones
+y búsqueda de tonalidades compatibles según la rueda Camelot.
 
-Incluye un ejercicio independiente de TypeScript que calcula los BPM
-a partir de un intervalo entre pulsaciones y muestra el resultado
-en la terminal.
+La lógica está escrita en TypeScript y se compila a JavaScript
+para ejecutarse en el navegador.
 
 ## Tecnologías
 
 - HTML
 - CSS
-- JavaScript
 - TypeScript
+- JavaScript generado por el compilador
 - Node.js y npm
 - Git y GitHub
+- Live Server para el servidor local
+
+## Requisitos
+
+- Git.
+- Node.js LTS con npm.
+- VS Code con la extensión Live Server, o un servidor local equivalente.
 
 ## Instalación
-
-Necesitas Git y Node.js LTS con npm.
 
 1. Clona el repositorio:
 
@@ -32,68 +36,101 @@ Necesitas Git y Node.js LTS con npm.
    cd bpm-camelot-tool
    ```
 
-3. Selecciona la rama del ejercicio TypeScript:
-
-   ```bash
-   git switch typescript-setup
-   ```
-
-4. Instala las dependencias:
+3. Instala las dependencias:
 
    ```bash
    npm install
    ```
 
-En PowerShell, si la ejecución de `npm.ps1` está bloqueada,
-utiliza `npm.cmd` en lugar de `npm` y `npx.cmd` en lugar de `npx`.
+4. Compila TypeScript:
+
+   ```bash
+   npm run build
+   ```
+
+Mientras la migración no esté incorporada a main, selecciona la rama
+migrate-web-typescript antes de instalar y compilar:
+
+```bash
+git switch migrate-web-typescript
+```
+
+En PowerShell, si npm.ps1 está bloqueado, utiliza npm.cmd
+en lugar de npm.
 
 ## Ejecutar la web
 
-Abre `index.html` en el navegador.
+Después de compilar, abre index.html con Live Server:
+botón derecho sobre el archivo y Open with Live Server.
 
-- Tap BPM: pulsa el botón siguiendo el ritmo para calcular el tempo.
-- Reset: reinicia la medición.
-- La barra espaciadora también permite registrar pulsaciones cuando
-  el foco está fuera de los controles interactivos.
-- Camelot: selecciona una tonalidad y pulsa el botón de búsqueda
-  para consultar sus tonalidades compatibles.
+El HTML carga dist/index.js como módulo.
+Utiliza un servidor local en lugar de abrir el HTML con doble clic.
 
-La web utiliza `js/script.js`. El ejercicio de TypeScript se ejecuta
-por separado y no sustituye ese archivo.
+## Desarrollo
 
-## Compilar y ejecutar el ejercicio TypeScript
+Para compilar una vez:
 
-1. Compila el código:
+```bash
+npm run build
+```
 
-   ```bash
-   npx tsc
-   ```
+Para recompilar automáticamente cuando guardes cambios en TypeScript:
 
-2. Ejecuta el JavaScript generado:
+```bash
+npm run watch
+```
 
-   ```bash
-   node dist/index.js
-   ```
+Mantén watch activo mientras trabajas.
+Para detenerlo, pulsa Ctrl + C en la terminal.
 
-El ejemplo utiliza un intervalo de 500 milisegundos y muestra:
+Edita src/index.ts. El archivo dist/index.js se genera automáticamente
+y no debe editarse manualmente.
+
+## Uso
+
+### Tap BPM
+
+- Pulsa TAP siguiendo el ritmo para calcular los BPM.
+- Pulsa RESET para reiniciar.
+- También puedes utilizar la barra espaciadora cuando el foco
+  esté fuera de los controles interactivos.
+- Tras una pausa de más de dos segundos entre pulsaciones,
+  comienza una nueva medición.
+
+### Camelot
+
+- Selecciona una tonalidad.
+- Pulsa BUSCAR COMPATIBLES.
+- Se muestran las tonalidades vecinas de la rueda Camelot
+  y la relativa mayor o menor.
+
+Ejemplo:
 
 ```text
-Tempo: 120 BPM
+Am → Dm · Em · C
 ```
 
 ## Variables de entorno
 
-Este proyecto no necesita variables de entorno ni claves de acceso.
+No se necesitan variables de entorno ni claves de acceso.
 
-## Estructura del proyecto
+## Estructura
 
-- `index.html`: estructura de la web.
-- `css/style.css`: estilos de la web.
-- `js/script.js`: interacciones de Tap BPM y Camelot.
-- `src/index.ts`: ejercicio de cálculo de BPM con TypeScript.
-- `dist/`: JavaScript generado al compilar; no se sube a Git.
-- `tsconfig.json`: configuración del compilador TypeScript.
-- `package.json`: configuración y dependencias del proyecto.
-- `package-lock.json`: versiones de las dependencias.
-- `.gitignore`: archivos y carpetas excluidos del seguimiento.
-- `README.md`: documentación del proyecto.
+- index.html: estructura de la web y enlace al módulo generado.
+- css/style.css: estilos.
+- src/index.ts: lógica de Tap BPM y Camelot escrita en TypeScript.
+- dist/index.js: JavaScript generado al compilar; excluido de Git.
+- tsconfig.json: configuración de TypeScript.
+- package.json: dependencias y scripts build y watch.
+- package-lock.json: versiones de las dependencias.
+- .gitignore: excluye dependencias, salida generada y archivos locales.
+- README.md: instrucciones del proyecto.
+
+## Comprobaciones manuales
+
+- TAP actualiza los BPM y RESET muestra 0 BPM.
+- La barra espaciadora permite registrar pulsaciones.
+- Am muestra Dm, Em y C como tonalidades compatibles.
+- G#m muestra C#m, D#m y B como tonalidades compatibles.
+- TypeScript compila sin errores.
+- El modo watch detecta y compila los cambios.
