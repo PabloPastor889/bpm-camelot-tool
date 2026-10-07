@@ -48,13 +48,6 @@ para ejecutarse en el navegador.
    npm run build
    ```
 
-Mientras la migración no esté incorporada a main, selecciona la rama
-migrate-web-typescript antes de instalar y compilar:
-
-```bash
-git switch migrate-web-typescript
-```
-
 En PowerShell, si npm.ps1 está bloqueado, utiliza npm.cmd
 en lugar de npm.
 
